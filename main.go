@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"log"
 	"net"
 
@@ -75,11 +76,20 @@ func (s *server) OnClientDisconnected(ctx context.Context, in *pb.ClientDisconne
 }
 
 func (s *server) OnClientAuthenticate(ctx context.Context, in *pb.ClientAuthenticateRequest) (*pb.ValuedResponse, error) {
+
 	cnter.Count(1)
 	reply := &pb.ValuedResponse{}
 	reply.Type = pb.ValuedResponse_STOP_AND_RETURN
 	reply.Value = &pb.ValuedResponse_BoolResult{BoolResult: true}
+	if in.Clientinfo.Username == "root" {
+		if in.Clientinfo.Password == "root" {
+			return reply, nil
+		} else {
+			return reply, errors.New("username or password is wrong")
+		}
+	}
 	return reply, nil
+
 }
 
 func (s *server) OnClientAuthorize(ctx context.Context, in *pb.ClientAuthorizeRequest) (*pb.ValuedResponse, error) {
