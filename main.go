@@ -86,6 +86,7 @@ func (s *server) OnClientAuthenticate(ctx context.Context, in *pb.ClientAuthenti
 		if in.Clientinfo.Password == "root" {
 			return reply, nil
 		} else {
+			fmt.Println("password is wrong")
 			return reply, errors.New("username or password is wrong")
 		}
 	}
