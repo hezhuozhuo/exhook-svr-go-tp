@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"errors"
+	"fmt"
 	"log"
 	"net"
 
@@ -76,7 +77,7 @@ func (s *server) OnClientDisconnected(ctx context.Context, in *pb.ClientDisconne
 }
 
 func (s *server) OnClientAuthenticate(ctx context.Context, in *pb.ClientAuthenticateRequest) (*pb.ValuedResponse, error) {
-
+	fmt.Println("OnClientAuthenticate")
 	cnter.Count(1)
 	reply := &pb.ValuedResponse{}
 	reply.Type = pb.ValuedResponse_STOP_AND_RETURN
